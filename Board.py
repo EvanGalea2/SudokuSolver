@@ -7,20 +7,23 @@ class Board:
         a = self.data[y]
         return a[x]
 
+    def setPos(self, x, y, num):
+        print("setting {0},{1} to {2}".format(x,y,num))
+        a = self.data[y]
+        a[x] = num
+
     def __init__(self): #currently just 9x9 board
         self.data = [None] * 9
         for c in range(0,9):
             self.data[c] = [None] * 9
 
-    def fillBoard(self):
-        for x in range(0, 9):
-            a = self.data[x]
-            for y in range(0, 9):
-                a[y] = random.randint(1,9)
 
-    def testBoard(self): #this method tests the 2d array
+    def printBoard(self): #this method tests the 2d array
         for x in self.data:
             print(x)
+
+    def getBoard(self):
+        return self.data
 
     def checkRow(self, yPos):
         valid = True
@@ -45,7 +48,7 @@ class Board:
                 print("error at ",i)
         if(valid):
             print("Column okay")
-    #     print "checking column"
+
     def checkSquare(self, xPos, yPos):
         xSquare = self.getSquareCoord(xPos)
         ySquare = self.getSquareCoord(yPos)
@@ -71,29 +74,22 @@ class Board:
             return 4
         else:
             return 7
+    def setBoard(self, newBoard):
+        self.data = newBoard
+
+    def createBoardFromFile(self):
+        file = open("SampleBoards.txt")
+        fileData = file.read()
+        f2 = fileData.rstrip('\n')
+        input = f2.split(',')
+        for x in range(0, 9):
+            a = [int(d) for d in str(input[x])]
+            input[x] = a
+        self.setBoard(input)
 
 
-
-b = Board()
-b.fillBoard()
-b.testBoard()
-# b.checkRow(3)
-# b.checkColumn(5)
-# b.checkSquare(0,0)
-# print("position at 3, 2 is ", b.getPos(3,2))
-print("test end")
-
-file = open("SampleBoards.txt")
-
-# print(f.read())
-fileData = file.read()
-# [line.rstrip('\n') for line in file]
-f2 = fileData.rstrip('\n')
-print(f2)
-input = f2.split(',')
-print(input)
-for b in input:
-
-    b = [int(d) for d in str(b)]
-    print(b)
-print(input)
+# #
+# b = Board()
+# b.createBoardFromFile()
+# b.setPos(8,8,999)
+# b.printBoard()
